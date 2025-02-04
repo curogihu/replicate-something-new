@@ -1,0 +1,26 @@
+模写用コードのテーマは "Go + GORM + AWS S3 連携" です。
+このコードは Go + Gin + GORM + AWS S3 を用いた ファイルアップロードAPI を実装しています。
+
+主なポイント
+GORMを用いたデータベース操作
+
+gorm.Open(sqlite.Open("files.db")) でSQLiteデータベースに接続
+db.AutoMigrate(&File{}) でテーブル作成
+db.Create(&File{}), db.Find(&File{}), db.First(&File{}) を活用
+AWS S3を利用したファイルアップロード
+
+s3.NewFromConfig(cfg) でAWSの設定をロード
+PutObject でS3へファイルをアップロード
+ACL: types.ObjectCannedACLPublicRead を指定し、公開URLを生成
+Ginフレームワークを用いたAPI構築
+
+r.POST("/upload") でファイルをアップロード
+r.GET("/files") でファイル一覧を取得
+r.GET("/files/:id") でID指定のファイル情報を取得
+
+
+実行コマンド一覧
+
+go mod init gin_gorm_s3
+go mod tidy
+go run main.go
