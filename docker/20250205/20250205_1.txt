@@ -1,0 +1,20 @@
+今日の模写用コードは 「Docker + FastAPI + PostgreSQL」 をテーマにしました！🚀
+
+主なポイント
+Dockerfile
+
+Python 3.11 環境を構築
+requirements.txt を使用して FastAPI と必要ライブラリをインストール
+uvicorn でアプリを起動
+docker-compose.yml
+
+PostgreSQLコンテナ (db) と FastAPIアプリ (api) を構築
+DATABASE_URL を環境変数として設定し、DB接続情報を渡す
+volumes を利用してDBデータを永続化
+FastAPI エントリポイント (main.py)
+
+非同期SQLAlchemy (create_async_engine) を使用
+ルートエンドポイント / で動作確認
+
+実行コマンド一覧
+docker-compose up --build

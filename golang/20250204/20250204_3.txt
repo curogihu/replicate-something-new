@@ -1,0 +1,12 @@
+次の模写用コードのテーマは、「Gin + GORM + Firebase Authentication」 を使用した JWT認証API です。
+これは、Ginを用いた ユーザー認証（ログイン・トークン発行） の実装を学ぶのに最適です。
+
+重要なトピック
+Firebase Authentication を使った JWT トークンの検証 → セキュアなユーザー認証
+GORM を用いた MySQL データベース操作 → ユーザー情報の管理
+Gin フレームワークを用いた RESTful API の構築 → API サーバー開発
+
+機能
+ユーザー登録 (/register)
+ログイン (/login)
+認証付きのユーザー情報取得 (/profile)

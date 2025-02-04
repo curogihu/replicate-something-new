@@ -1,0 +1,67 @@
+# Docker + FastAPI + PostgreSQL
+
+# 1. DockerFile
+FROM python:3.11
+WORKDIR /app
+COPY requirements.txt ./
+RUN pip install --nocache-dir -r requirements.txt
+COPY . .
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+# 2. requirements.txt
+fastapi
+uvicorn
+sqlalchemy
+asyncpg
+psycopg2-binary
+
+# 3. dockercompose.yml
+version: '3.9'
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fastapi_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: fastapi_app
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/fastapi_db
+    volumes:
+      - .:/app
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+volumes:
+  postgres_data:
+
+
+# 4. main.py
+# from fastapi import FastAPI
+# from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+# from sqlalchemy.orm import sessionmaker
+# import os
+
+# DATABASE_URL = os.getenv("DATABASE_URL")
+# engine = create_async_engine(DATABASE_URL echo=True)
+# SessiionLocal = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
+
+# app = FastAPI()
+
+# @app.get("/")
+# async def root():
+#     return { "message": "FastAPI + Docker + PostgreSQL is running"}
+
+# docker-compose up --build
